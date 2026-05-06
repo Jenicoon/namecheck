@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>수령 명단 확인</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&family=Noto+Sans+KR:wght@400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="site-shell">
+      <header class="site-header">
+        <div class="container header-inner">
+          <a class="brand" href="/">
+            <span class="brand-badge">FESTA</span>
+            <span class="brand-text">수령 명단 확인</span>
+          </a>
+        </div>
+      </header>
+
+      <main>
+        <section class="hero-section">
+          <div class="container hero-grid">
+            <div>
+              <p class="eyebrow">CHECK-IN CONSOLE</p>
+              <h1>이름, 학번, 전화번호로 빠르게 찾아 바로 수령 체크하세요.</h1>
+              <p class="hero-copy">
+                운영진이 여러 명이어도 같은 명단을 함께 보고, 수령 확인을 누르면 즉시 반영되도록 구성했습니다.
+                검색 결과가 여러 명이면 한 번에 모두 확인할 수 있습니다.
+              </p>
+            </div>
+            <aside class="hero-card">
+              <h2>운영 흐름</h2>
+              <p class="muted">홈에서 수령 종류를 고르고, 검색 후 즉시 체크합니다.</p>
+              <div class="note-box">
+                <p>1. 수령 종류 선택</p>
+                <p>2. 이름 / 학번 / 전화번호 입력</p>
+                <p>3. 동일 값 가진 명단 전체 표시</p>
+                <p>4. 수령 확인 버튼 클릭</p>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section class="container page-section">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">CATEGORIES</p>
+              <h2>수령 종류 선택</h2>
+            </div>
+            <div class="inline-note">버튼을 누르면 해당 명단 확인 화면으로 바로 이동합니다.</div>
+          </div>
+
+          <div id="homeView" class="view is-active">
+            <div id="categoryGrid" class="category-grid">
+              <button class="category-card" type="button" data-category="goods_preorder">
+                <p class="eyebrow">CHECK-IN</p>
+                <h3>굿즈 프리오더 수령</h3>
+                <p>이름, 연락처, 생일로 검색하고 신청한 굿즈 품목을 한 번에 확인합니다.</p>
+                <span class="card-pill">명단 열기</span>
+              </button>
+              <button class="category-card" type="button" data-category="wristband_day1">
+                <p class="eyebrow">CHECK-IN</p>
+                <h3>팔찌 1일차 수령</h3>
+                <p>이름, 학번, 연락처로 검색하고 수령 여부만 빠르게 체크합니다.</p>
+                <span class="card-pill">명단 열기</span>
+              </button>
+              <button class="category-card" type="button" data-category="wristband_day2">
+                <p class="eyebrow">CHECK-IN</p>
+                <h3>팔찌 2일차 수령</h3>
+                <p>이름, 학번, 연락처로 검색하고 수령 여부만 빠르게 체크합니다.</p>
+                <span class="card-pill">명단 열기</span>
+              </button>
+              <button class="category-card" type="button" data-category="wristband_day3">
+                <p class="eyebrow">CHECK-IN</p>
+                <h3>팔찌 3일차 수령</h3>
+                <p>이름, 학번, 연락처로 검색하고 수령 여부만 빠르게 체크합니다.</p>
+                <span class="card-pill">명단 열기</span>
+              </button>
+            </div>
+          </div>
+
+          <div id="categoryView" class="view">
+            <div class="toolbar">
+              <button id="backButton" class="secondary-button" type="button">이전으로</button>
+              <div>
+                <p class="eyebrow">ACTIVE CATEGORY</p>
+                <h2 id="activeCategoryTitle">카테고리</h2>
+              </div>
+            </div>
+
+            <div class="checkin-layout">
+              <section class="panel search-panel">
+                <p class="eyebrow">SEARCH</p>
+                <h3>명단 검색</h3>
+                <p id="searchGuide" class="muted">카테고리를 선택하면 검색 칸이 바뀝니다.</p>
+                <form id="searchForm" class="search-form">
+                  <div id="searchFields" class="search-fields"></div>
+                  <button class="primary-button" type="submit">검색</button>
+                </form>
+                <div id="statusBox" class="status-box">카테고리를 선택하면 검색을 시작할 수 있습니다.</div>
+              </section>
+
+              <section class="panel results-panel">
+                <div class="results-head">
+                  <div>
+                    <p class="eyebrow">RESULTS</p>
+                    <h3>검색 결과</h3>
+                  </div>
+                  <div id="resultCount" class="inline-note">아직 검색하지 않았습니다.</div>
+                </div>
+                <div id="resultsList" class="results-list empty-state">
+                  검색 결과가 여기에 표시됩니다.
+                </div>
+              </section>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

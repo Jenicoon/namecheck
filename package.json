@@ -1,0 +1,13 @@
+{
+  "name": "festival-checkin-app",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vercel dev",
+    "start": "vercel dev"
+  },
+  "dependencies": {
+    "googleapis": "^144.0.0"
+  }
+}
