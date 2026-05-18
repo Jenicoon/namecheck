@@ -35,9 +35,16 @@ function hasMeaningfulValue(value) {
   return normalized !== "" && normalized !== "0";
 }
 
+function isMarked(value) {
+  return String(value || "").trim().toUpperCase() === "O";
+}
+
 function buildRecord(row, categoryConfig) {
-  const received = String(row[categoryConfig.sheetColumn] || "").trim().toUpperCase() === "O";
+  const received = isMarked(row[categoryConfig.sheetColumn]);
+  const rawNote = row.note || row.NOTE || row.Note || "";
+  const rawTwotwo = row.twotwo || row.TWOTWO || row.TwoTwo || "";
   const info = {};
+
   for (const field of categoryConfig.infoFields || []) {
     info[field.key] = getFieldValue(row, field);
   }
@@ -53,7 +60,9 @@ function buildRecord(row, categoryConfig) {
   return {
     rowNumber: row.__rowNumber,
     info,
-    note: row.note || row.비고 || "",
+    note: isMarked(rawNote) ? "" : rawNote,
+    tattooSticker: isMarked(rawNote),
+    extraOrder: isMarked(rawTwotwo),
     goods,
     received
   };
@@ -93,6 +102,12 @@ export default async function handler(req, res) {
       records: matches
     });
   } catch (error) {
+    console.error("Failed to load records", {
+      message: error?.message,
+      stack: error?.stack,
+      cause: error?.cause
+    });
+
     return sendJson(res, 500, {
       error: error.message || "명단을 불러오지 못했습니다."
     });

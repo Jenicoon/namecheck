@@ -392,6 +392,26 @@ input:focus {
   font-size: 24px;
 }
 
+.name-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 0 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.name-badge-green {
+  color: #12714d;
+  background: rgba(15, 141, 98, 0.14);
+}
+
+.name-badge-blue {
+  color: #1e63d7;
+  background: rgba(30, 99, 215, 0.12);
+}
+
 .person-meta {
   display: flex;
   flex-wrap: wrap;

@@ -2,7 +2,7 @@ const categories = [
   {
     key: "goods_preorder",
     title: "굿즈 프리오더 수령",
-    description: "이름, 연락처, 생일로 검색하고 신청한 굿즈 품목을 한 번에 확인합니다.",
+    description: "이름, 연락처, 생일로 검색하고 신청한 굿즈 항목을 한 번에 확인합니다.",
     fields: [
       { key: "name", label: "이름", placeholder: "예: 홍길동" },
       { key: "phone", label: "연락처", placeholder: "예: 01012345678" },
@@ -13,33 +13,30 @@ const categories = [
   {
     key: "wristband_day1",
     title: "팔찌 1일차 수령",
-    description: "이름, 학번, 연락처로 검색하고 수령 여부만 빠르게 체크합니다.",
+    description: "이름, 학번으로 검색하고 수령 여부를 빠르게 체크합니다.",
     fields: [
       { key: "name", label: "이름", placeholder: "예: 홍길동" },
-      { key: "student_id", label: "학번", placeholder: "예: 20260001" },
-      { key: "phone", label: "연락처", placeholder: "예: 01012345678" }
+      { key: "student_id", label: "학번", placeholder: "예: 20260001" }
     ],
     type: "wristband"
   },
   {
     key: "wristband_day2",
     title: "팔찌 2일차 수령",
-    description: "이름, 학번, 연락처로 검색하고 수령 여부만 빠르게 체크합니다.",
+    description: "이름, 학번으로 검색하고 수령 여부를 빠르게 체크합니다.",
     fields: [
       { key: "name", label: "이름", placeholder: "예: 홍길동" },
-      { key: "student_id", label: "학번", placeholder: "예: 20260001" },
-      { key: "phone", label: "연락처", placeholder: "예: 01012345678" }
+      { key: "student_id", label: "학번", placeholder: "예: 20260001" }
     ],
     type: "wristband"
   },
   {
     key: "wristband_day3",
     title: "팔찌 3일차 수령",
-    description: "이름, 학번, 연락처로 검색하고 수령 여부만 빠르게 체크합니다.",
+    description: "이름, 학번으로 검색하고 수령 여부를 빠르게 체크합니다.",
     fields: [
       { key: "name", label: "이름", placeholder: "예: 홍길동" },
-      { key: "student_id", label: "학번", placeholder: "예: 20260001" },
-      { key: "phone", label: "연락처", placeholder: "예: 01012345678" }
+      { key: "student_id", label: "학번", placeholder: "예: 20260001" }
     ],
     type: "wristband"
   }
@@ -106,7 +103,7 @@ function showHome() {
   homeView.classList.add("is-active");
   categoryView.classList.remove("is-active");
   searchFields.innerHTML = "";
-  searchGuide.textContent = "카테고리를 선택하면 검색 칸이 바뀝니다.";
+  searchGuide.textContent = "카테고리를 선택하면 검색 필드가 나타납니다.";
   setStatus("카테고리를 선택하면 해당 명단 검색 화면으로 이동합니다.");
   resetResults();
 }
@@ -141,7 +138,7 @@ function showCategory(categoryKey) {
   activeCategoryTitle.textContent = category.title;
   renderSearchFields(category);
   searchGuide.textContent = `${category.fields.map((field) => field.label).join(", ")} 중 하나 이상 입력해서 검색해주세요.`;
-  setStatus("검색 조건을 입력한 뒤 검색 버튼을 눌러주세요.");
+  setStatus("검색 조건을 입력하고 검색 버튼을 눌러주세요.");
   resetResults();
 
   const firstInput = searchFields.querySelector("input");
@@ -152,7 +149,7 @@ function showCategory(categoryKey) {
 
 function renderGoodsList(goods) {
   if (!goods.length) {
-    return '<div class="goods-empty">신청된 굿즈 항목이 없습니다.</div>';
+    return '<div class="goods-empty">신청한 굿즈 항목이 없습니다.</div>';
   }
 
   return `
@@ -186,6 +183,20 @@ function renderInfo(record) {
     .join("");
 }
 
+function renderNameBadges(record) {
+  const badges = [];
+
+  if (record.extraOrder) {
+    badges.push('<span class="name-badge name-badge-green">주문 한 개 더</span>');
+  }
+
+  if (record.tattooSticker) {
+    badges.push('<span class="name-badge name-badge-blue">타투스티커 증정</span>');
+  }
+
+  return badges.join("");
+}
+
 function renderResults(records) {
   state.results = records;
 
@@ -208,6 +219,7 @@ function renderResults(records) {
                 ${record.received ? "수령 완료" : "수령 전"}
               </div>
               <h4 class="person-name">${escapeHtml(record.info?.name || "이름 없음")}</h4>
+              ${renderNameBadges(record)}
             </div>
             <div class="person-meta">
               ${renderInfo(record)}
@@ -284,7 +296,7 @@ async function markReceived(rowNumber) {
 
   const payload = await response.json();
   if (!response.ok) {
-    throw new Error(payload.error || "수령 확인 저장에 실패했습니다.");
+    throw new Error(payload.error || "수령 확인 처리에 실패했습니다.");
   }
 }
 
@@ -336,7 +348,7 @@ resultsList.addEventListener("click", async (event) => {
 
   const rowNumber = Number(button.dataset.rowNumber);
   button.disabled = true;
-  button.textContent = "저장 중...";
+  button.textContent = "처리 중...";
 
   try {
     await markReceived(rowNumber);
@@ -344,7 +356,7 @@ resultsList.addEventListener("click", async (event) => {
       record.rowNumber === rowNumber ? { ...record, received: true } : record
     );
     renderResults(state.results);
-    setStatus("수령 확인이 저장되었습니다.");
+    setStatus("수령 확인이 완료되었습니다.");
   } catch (error) {
     button.disabled = false;
     button.textContent = "수령 확인";
