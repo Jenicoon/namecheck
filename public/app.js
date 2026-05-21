@@ -180,7 +180,7 @@ function renderInfo(record) {
       };
       labelMap.status = "상태";
       labelMap.major = "전공";
-      return `<span>${labelMap[key] || key} ${escapeHtml(value)}</span>`;
+      return `<span><strong>${labelMap[key] || key}</strong> ${escapeHtml(value)}</span>`;
     })
     .join("");
 }
