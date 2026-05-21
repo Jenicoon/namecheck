@@ -178,8 +178,8 @@ function renderInfo(record) {
         phone: "연락처",
         birthday: "생일"
       };
-      labelMap.status = "status";
-      labelMap.major = "major";
+      labelMap.status = "상태";
+      labelMap.major = "전공";
       return `<span>${labelMap[key] || key} ${escapeHtml(value)}</span>`;
     })
     .join("");
