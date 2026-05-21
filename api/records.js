@@ -27,6 +27,11 @@ function getFieldValue(row, fieldConfig) {
       return row[alias];
     }
   }
+
+  if (Number.isInteger(fieldConfig.columnIndex)) {
+    return row.__columns?.[fieldConfig.columnIndex] || "";
+  }
+
   return "";
 }
 
